@@ -346,29 +346,29 @@ Project: org-data-platform
 
 ---
 
-## Implementation Roadmap
+## Implementation Steps
 
-### Week 1-2: Foundation
+### 1: Foundation
 1. ✅ Create GCP Data Catalog taxonomy for HR data classification
 2. ✅ Define policy tags hierarchy (Critical, Sensitive, General, Public)
 3. ✅ Set up Google Groups for access control (hr-admins, hr-managers, developers)
 4. ✅ Create service accounts for data pipelines
 
-### Week 3-4: Production Security
+### 2: Production Security
 5. ✅ Apply policy tags to all HR table columns
 6. ✅ Configure dynamic data masking rules
 7. ✅ Implement row-level security policies
 8. ✅ Grant IAM roles at dataset level (not project)
 9. ✅ Enable Cloud Audit Logs for HR datasets
 
-### Week 5-6: Lower Environment Setup
+### 3: Lower Environment Setup
 10. ✅ Set up Cloud KMS key ring and keys for tokenization
 11. ✅ Create Cloud DLP de-identification templates
 12. ✅ Develop Dataflow pipeline for data obfuscation
 13. ✅ Create dev_hr and staging_hr datasets with tokenized data
 14. ✅ Test referential integrity and data utility
 
-### Week 7-8: Testing & Validation
+### 4: Testing & Validation
 15. ✅ User acceptance testing with HR team
 16. ✅ Validate masking rules work as expected
 17. ✅ Verify developers can use dev environment effectively
@@ -497,28 +497,6 @@ ORDER BY timestamp DESC;
 
 ---
 
-## References and Resources
-
-### Google Cloud Documentation
-1. [BigQuery Data Masking](https://cloud.google.com/bigquery/docs/column-data-masking-intro)
-2. [Row-Level Security](https://cloud.google.com/bigquery/docs/row-level-security-intro)
-3. [Column-Level Security](https://cloud.google.com/bigquery/docs/column-level-security-intro)
-4. [BigQuery IAM Roles](https://cloud.google.com/bigquery/docs/access-control)
-5. [Cloud DLP De-identification](https://cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data)
-6. [Built-in Tokenization](https://cloud.google.com/blog/products/identity-security/get-started-with-built-in-tokenization-for-sensitive-data-protection)
-
-### GitHub Reference Implementations
-1. [DLP Dataflow De-identification Pipeline](https://github.com/GoogleCloudPlatform/dlp-dataflow-deidentification)
-2. [Auto Data Tokenize](https://github.com/GoogleCloudPlatform/auto-data-tokenize)
-3. [BigQuery DLP Remote Function](https://github.com/GoogleCloudPlatform/bigquery-dlp-remote-function)
-
-### Recent Blog Posts (2024-2025)
-1. [Dynamic Data Masking on BigQuery - Plumbers of Data Science](https://medium.com/plumbersofdatascience/dynamic-data-masking-on-bigquery-ae3d004b496c)
-2. [Using BigQuery Encrypt and Decrypt with Sensitive Data Protection](https://cloud.google.com/blog/products/identity-security/using-bigquery-encrypt-and-decrypt-with-sensitive-data-protection)
-3. [The A to Z BigQuery Security Guide - Vasudev Maduri](https://medium.com/google-cloud/comprehensive-bigquery-security-best-practices-958285edc750)
-
----
-
 ## Appendix: Sample Implementation Code
 
 ### A. Policy Tag Taxonomy Creation
@@ -593,6 +571,7 @@ dlpProjectId=PROJECT
 
 ---
 # Zero-Trust IAM Strategy for BigQuery HR Data
+
 ## Preventing Admin Access to Sensitive Data
 ---
 
