@@ -1902,3 +1902,71 @@ FROM ctng_dataset.ext_raw_data;
 |PII Exposure|Zero (never stored unencrypted)|Zero|Brief (unencrypted → encrypted)|
 |Maintainability|High (metadata-driven)|Medium (code changes)|Medium (schema changes)|
 |Recommendation|✅ Use This!|Good backup|Last resort|
+
+
+### KMS vs DLP: Core Differences
+|Aspect|Cloud KMS Encryption|Cloud DLP Tokenization|
+|------|------------------------|------------------|
+|What it does|Standard encryption (AES-256)|Intelligent tokenization with format preservation|
+|Output|Random binary blob|Can preserve format (e.g., email → email-like token)|
+|Reversible?|Yes (decrypt with key)|Yes (re-identify with key) OR No (irreversible)|
+|PII Detection|No - you specify what to encrypt|Yes - auto-detects 150+ PII types|
+|Cost|Very cheap (~$0.03 per 10K operations)|More expensive (~$1 per 1M bytes inspected)|
+|Performance|Very fast (native BigQuery)|Slower (API call per value)|
+|Use Case|Structured data, fast bulk encryption|Unstructured data, smart redaction|
+
+#### When to Use Each:
+Use Cloud KMS Encryption for:
+```
+✅ High-Sensitivity PII ("PII-High")
+Examples:
+- Social Security Numbers / National Insurance Numbers
+- Bank account details
+- Medical records
+- Passport numbers
+- Credit card numbers (full PAN)
+```
+#### Why KMS?
+```
+Maximum security (military-grade AES-256)
+Needs to be completely unreadable even to admins
+Fast bulk encryption for millions of rows
+Cheap at scale
+You control key rotation policy
+```
+
+#### **Use Cloud DLP Tokenization for:**
+
+#### ✅ **Medium-Sensitivity PII ("PII")**
+```
+Examples:
+- Email addresses (need to validate format)
+- Names (need to preserve for analytics)
+- Phone numbers (need to see country code)
+- Addresses (need to preserve for geo-analytics)
+- Dates of birth (need to calculate age ranges)
+```
+#### Why DLP?
+```
+Format preservation (still looks real-ish)
+Can do analytics on tokenized data
+Auto-detection of PII types
+Flexible de-identification techniques:
+  Format-preserving encryption
+  Pseudonymization
+  Generalization (bucketing)
+  Date shifting
+  Masking/redaction
+```
+
+### Dynamic Data Masking (Read time) vs Encryption (KMS) (Write time)
+|Aspect|Dynamic Masking|Encryption (KMS)|
+|------|------------------------|------------------|
+|Data at rest|Plain text|Encrypted blob|
+|Automatic on INSERT?|❌ No|❌ No (you write SQL)|
+|Automatic on SELECT?|✅ Yes (if policy configured)|❌ No (manual DECRYPT)|
+|Policy tags required?|✅ Yes❌ |No (but can use them)|
+|Performance|Fast (query-time mask)|Fast (native BigQuery)|
+|Security|Medium (admins see plain text)|High (admins see encrypted)|
+
+
